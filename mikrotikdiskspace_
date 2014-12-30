@@ -68,7 +68,7 @@ if ($argc > 1 && $argv[1] == 'config') {
   print "host_name $hostname\n";
   #print "graph_args --base 1024 -l 0 --vertical-label Bytes --upper-limit " . ($resources[0]['total-hdd-space'] * 1024) .  "\n";
   print "graph_args --base 1024 -l 0 --vertical-label Bytes --upper-limit " . ($resources[0]['total-hdd-space']) .  "\n";
-  print "graph_title internal disk usage\n";
+  print "graph_title Internal disk usage\n";
   print "graph_vlabel bytes\n";
   print "graph_category system\n";
   print "graph_info This graph shows the internal storage disk usage\n";
