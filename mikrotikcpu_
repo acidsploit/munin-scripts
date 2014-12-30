@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+# Original script from: http://wiki.mikrotik.com/wiki/Munin_Monitoring
+
 # USAGE
 #
 # place the script in the munin plugins folder and use the following naming convention:
