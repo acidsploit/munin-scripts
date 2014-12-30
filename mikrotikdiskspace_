@@ -1,8 +1,21 @@
 #!/usr/bin/php
 
-
-
 <?php
+
+# USAGE
+#
+# place the script in the munin plugins folder and use the following naming convention:
+#
+# mikrotikcpu_router-hostname
+#
+# example:
+# mikrotikcpu_router.local.net
+#
+# Configuration:
+#  - Install the routeros_api.class.php php class.
+#  - Set your mikrotik user and pass in the $API->connect connection string.
+#
+#
 
 // Change the following path as appropriate
 require('/srv/http/munin/ros/routeros_api.class.php');

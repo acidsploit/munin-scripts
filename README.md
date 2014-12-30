@@ -9,6 +9,7 @@ The scripts are written in php or perl. Check the scripts to see which modules o
 Updated plugins:
 - mikrotikcpu_
 - mikrotikdiskspace_
+- mikrotikifrate_
 
 Dependencies:
 - routeros_api.class.php
