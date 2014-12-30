@@ -1,0 +1,105 @@
+#!/usr/bin/php
+<?php
+
+# USAGE
+#
+# place the script in the munin plugins folder and use the following naming convention:
+#
+# mikrotikcpu_router-hostname_ifname
+#
+# example:
+# mikrotikcpu_router.local.net_ether0
+#
+# Configuration:
+#  - Install the routeros_api.class.php php class.
+#  - Set your mikrotik user and pass in the $API->connect connection string.
+#
+#
+
+// Change the following path as appropriate
+require('/srv/http/munin/ros/routeros_api.class.php');
+
+$API = new routeros_api();
+
+// debug
+$API->debug = false;
+
+// Work out hostname and interface name
+$param = explode("_",$argv[0],3);
+
+if (isset($param[1])) {
+  $hostname = $param[1];
+} else {
+  die("No hostname available. Filename should be like: mikrotikifrate_example.changeip.net_ether1");
+}
+
+if (isset($param[2])) {
+  $ifname = $param[2];
+} else {
+  die("No interface name available. Filename should be like: mikrotikifrate_example.changeip.net_ether1");
+}
+
+// change username/password as appropriate
+if ($API->connect($hostname, 'munin', 'munin')) {
+
+   $API->write('/interface/print',false);
+   $API->write('=stats=');
+
+   $READ = $API->read(false);
+   $interfaces = $API->parse_response($READ);
+  # print_r($interfaces);
+   $API->disconnect();
+
+   $connect = 'yes';
+} else {
+   $connect = 'no (could not connect)';
+}
+
+if ($argc > 1 && $argv[1] == 'autoconf') {
+  print $connect . "\n";
+  exit;
+}
+
+// Output configuration information
+if ($argc > 1 && $argv[1] == 'config') {
+  print "host_name $hostname\n";
+  print "graph_args --base 1000\n";
+  print "graph_title $ifname traffic\n";
+  print "graph_vlabel bits per second\n";
+  print "graph_category network\n";
+  print "graph_info This graph shows the incoming and outgoing traffic rate of an interface\n";
+  print "in.label received\n";
+  print "in.type DERIVE\n";
+  print "in.draw AREA\n";
+  print "in.min 0\n";
+  print "in.cdef in,8,*\n";
+  print "out.label sent\n";
+  print "out.type DERIVE\n";
+  print "out.draw LINE1\n";
+  print "out.min 0\n";
+  print "out.cdef out,8,*\n";
+
+  exit;
+}
+
+// Exit if we don't have any servers to report on.
+if (empty($interfaces)) {
+  exit;
+}
+
+// Finally, print it all out.
+    foreach ($interfaces as $interface)
+    {
+	if ($interface['name']==$ifname)
+	{
+	    //print_r($interface);
+	    $rxbytes = $interface['rx-byte'];
+	    $txbytes = $interface['tx-byte'];
+	    print ("in.value ") . $rxbytes . "\n";
+	    print ("out.value ") . $txbytes . "\n";
+	}
+    }
+
+exit;
+
+?>
