@@ -1,0 +1,75 @@
+#!/usr/bin/perl
+
+# USAGE
+#
+# place the script in the munin plugins folder and use the following naming convention:
+#
+# mikrotikcpu_router-hostname
+#
+# example:
+# mikrotikcpu_router.local.net
+#
+# Configuration:
+#  - Set your SNMP community string $SNMPCommunity
+# 
+# 
+
+###############################################################################
+use diagnostics;
+use Net::SNMP;
+use strict;
+use warnings;
+###############################################################################
+my $CPUOID = ".1.3.6.1.2.1.25.3.3.1.2.1";
+
+# Set your SNMP community string
+my $SNMPCommunity = "community";
+my $SNMPPort = "161";
+
+###############################################################################
+## Determine Hostname
+my $Host = undef;
+$0 =~ /mikrotikcpu_(.+)*$/;
+unless ($Host = $1) {
+  exit 2;
+}
+
+###############################################################################
+## Initiate SNMP Session
+my ($Session, $Error) = Net::SNMP->session (-hostname  => $Host,
+                                            -community => $SNMPCommunity,
+                                            -port      => $SNMPPort,
+                                            -timeout   => 60,
+                                            -retries   => 5,
+                                            -version   => 1);
+if (!defined($Session)) {
+  die "Croaking: $Error";
+}
+
+###############################################################################
+## Configuration
+if ($ARGV[0] && $ARGV[0] eq "config") {
+  print "host_name " . $Host . "\n";
+  print "graph_args -l 0 -r --vertical-label percent --lower-limit 0 --upper-limit 100\n";
+  print "graph_title CPU usage\n";
+  print "graph_category system\n";
+  print "graph_info This graph shows the router's CPU usage.\n";
+  print "graph_order Total\n";
+  print "graph_vlabel %\n";
+  print "graph_scale no\n";
+  print "Total.label CPU Usage\n";
+  print "Total.draw AREA\n";
+  print "Total.warning 60\n";
+  print "Total.critical 90\n";
+  $Session->close;
+  exit;
+}
+
+###############################################################################
+## Execution
+if (my $Result = $Session->get_request(-varbindlist => [$CPUOID])) {
+  print "Total.value " . $Result->{$CPUOID} . "\n";
+  $Session->close;
+  exit;
+}
+
