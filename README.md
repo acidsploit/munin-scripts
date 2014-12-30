@@ -10,6 +10,7 @@ Updated plugins:
 - mikrotikcpu_
 - mikrotikdiskspace_
 - mikrotikifrate_
+- mikrotikmemory_
 
 Dependencies:
 - routeros_api.class.php
