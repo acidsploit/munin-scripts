@@ -10,7 +10,7 @@
 # mikrotikcpu_router-hostname_ifname
 #
 # example:
-# mikrotikcpu_router.local.net_ether0
+# mikrotikcpu_router01.local.net_ether2
 #
 # Configuration:
 #  - Install the routeros_api.class.php php class.

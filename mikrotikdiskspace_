@@ -11,7 +11,7 @@
 # mikrotikcpu_router-hostname
 #
 # example:
-# mikrotikcpu_router.local.net
+# mikrotikcpu_router01.local.net
 #
 # Configuration:
 #  - Install the routeros_api.class.php php class.

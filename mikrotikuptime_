@@ -9,7 +9,7 @@
 # mikrotikuptime_router-hostname
 #
 # example:
-# mikrotikuptime_router.local.net
+# mikrotikuptime_router01.local.net
 #
 # Configuration:
 #  - Set your SNMP community string $SNMPCommunity
