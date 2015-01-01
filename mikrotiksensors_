@@ -70,11 +70,12 @@ if (!defined($Session)) {
 if ($ARGV[0] && $ARGV[0] eq "config") {
   if ($sensor eq "temperature"){
     print "host_name " . $Host . "\n";
+    print "graph_args -l 0 -u 100\n";
     print "graph_title Temperature Sensor\n";
     print "graph_vlabel Degrees Celcius\n";
     print "graph_category sensors\n";
     print "temp.label temp\n";
-    print "temp.type AREA\n";
+    print "temp.draw AREA\n";
     print "temp.warning 60\n";
     print "temp.critical 80\n";
   }
