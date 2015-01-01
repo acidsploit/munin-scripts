@@ -12,5 +12,8 @@ Updated plugins:
 - mikrotikifrate_
 - mikrotikmemory_
 
+New pugins:
+- mikrotikuptime_
+
 Dependencies:
 - routeros_api.class.php
