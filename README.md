@@ -14,6 +14,9 @@ Updated plugins:
 
 New pugins:
 - mikrotikuptime_
+- mikrotiksensors_
+	- temperature
+	- voltage
 
 Dependencies:
 - PHP:

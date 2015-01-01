@@ -1,0 +1,139 @@
+#!/usr/bin/perl
+
+# Original script from: http://wiki.mikrotik.com/wiki/Munin_Monitoring
+
+# USAGE
+#
+# place the script in the munin plugins folder and use the following naming convention:
+#
+# mikrotikcpu_router-hostname_sensor
+#
+# sensors:
+#  - voltage
+#  - temperature
+#
+# example:
+# mikrotikcpu_router01.local.net_voltage
+#
+# Configuration:
+#  - Set your SNMP community string $SNMPCommunity
+#
+#
+
+
+###############################################################################
+use diagnostics;
+use Net::SNMP;
+use strict;
+use warnings;
+###############################################################################
+#my $ActiveFanOID = ".1.3.6.1.4.1.14988.1.1.3.9.0";
+my $VoltageOID = ".1.3.6.1.4.1.14988.1.1.3.8.0";
+my $TemperatureOID = ".1.3.6.1.4.1.14988.1.1.3.10.0";
+#my $CPUTemperatureOID = ".1.3.6.1.4.1.14988.1.1.3.11.0";
+#my $CurrentOID = ".1.3.6.1.4.1.14988.1.1.3.13.0";
+#my $PowerConsumptionOID = ".1.3.6.1.4.1.14988.1.1.3.12.0";
+#my $PSU1StateOID = ".1.3.6.1.4.1.14988.1.1.3.15.0";
+#my $PSU2StateOID = ".1.3.6.1.4.1.14988.1.1.3.16.0";
+my $SNMPCommunity = "community";
+my $SNMPPort = "161";
+
+###############################################################################
+## Determine Hostname
+my $Host = undef;
+my $sensor = undef;
+$0 =~ /mikrotiksensors_(.+)_(temperature|voltage)*$/;
+unless ($Host = $1) {
+  exit 2;
+}
+unless ($sensor = $2){
+  exit 2;
+}
+
+#debug
+#print $Host . " - " . $sensor . "\n";
+
+###############################################################################
+## Initiate SNMP Session
+my ($Session, $Error) = Net::SNMP->session (-hostname  => $Host,
+                                            -community => $SNMPCommunity,
+                                            -port      => $SNMPPort,
+                                            -timeout   => 60,
+                                            -retries   => 5,
+                                            -version   => 1);
+if (!defined($Session)) {
+  die "Croaking: $Error";
+}
+
+###############################################################################
+## Configuration
+if ($ARGV[0] && $ARGV[0] eq "config") {
+  if ($sensor eq "temperature"){
+    print "host_name " . $Host . "\n";
+    print "graph_title Temperature Sensor\n";
+    print "graph_vlabel Degrees Celcius\n";
+    print "graph_category sensors\n";
+    print "temp.label temp\n";
+    print "temp.type AREA\n";
+    print "temp.warning 60\n";
+    print "temp.critical 80\n";
+  }
+
+  if ($sensor eq "voltage"){ 
+    print "host_name " . $Host . "\n";
+    print "graph_title Voltage Sensor\n";
+    print "graph_vlabel Volts\n";
+    print "graph_category sensors\n";
+    print "voltage.label voltage\n";
+    print "voltage.type GAUGE\n";
+  }
+
+ # my $Result = $Session->get_request(-varbindlist => [$MemTotalOID]);
+ # print "host_name " . $Host . "\n";
+ # print "graph_args --base 1024 -l 0 --vertical-label Bytes --upper-limit " . ($Result->{$MemTotalOID} * 1024) . "\n";
+ # print "graph_title Memory usage\n";
+ # print "graph_category system\n";
+ # print "graph_info This graph shows the router's memory usage.\n";
+ # print "graph_order Total Used\n";
+ # print "graph_vlabel bytes\n";
+ # print "Total.label Total Memory\n";
+ # print "Total.draw AREA\n";
+ # print "Used.label Used Memory\n";
+ # print "Used.draw AREA\n";
+  $Session->close;
+  exit;
+}
+
+###############################################################################
+## Execution
+#if (my $Result = $Session->get_request(-varbindlist => [$ActiveFanOID, $VoltageOID, $TemperatureOID, $CPUTemperatureOID, $CurrentOID, $PowerConsumptionOID, $PSU1StateOID, $PSU2StateOID])) {
+if (my $Result = $Session->get_request(-varbindlist => [$VoltageOID, $TemperatureOID])) {
+
+# debug
+#  print "ActiveFanOID " .  $Result->{$ActiveFanOID} . "\n";
+#  print "VoltageOID "   .  $Result->{$VoltageOID} . "\n";
+#  print "TemperatureOID " .  $Result->{$TemperatureOID} . "\n";
+#  print "CPUTemperatureOID " .  $Result->{$CPUTemperatureOID} . "\n";
+#  print "CurrentOID " .  $Result->{$CurrentOID} . "\n";
+#  print "PowerConsumptionOID " .  $Result->{$PowerConsumptionOID} . "\n";
+#  print "PSU1StateOID " .  $Result->{$PSU1StateOID,} . "\n";
+#  print "PSU2StateOID " .  $Result->{$PSU2StateOID} . "\n";
+
+  if ($sensor eq "temperature"){
+    my $temp = ($Result->{$TemperatureOID} / 10);
+    print "temp.value " .  $temp . "\n";
+  }  
+
+  if ($sensor eq "voltage"){
+    my $voltage = ($Result->{$VoltageOID} / 10);
+    print "voltage.value " .  $voltage . "\n";
+  }
+
+
+  $Session->close;
+  exit;
+} 
+#else {
+#  print "something failed\n";
+#}
+
