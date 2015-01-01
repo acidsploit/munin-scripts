@@ -16,4 +16,8 @@ New pugins:
 - mikrotikuptime_
 
 Dependencies:
-- routeros_api.class.php
+- PHP:
+	- routeros_api.class.php
+- Perl:
+	- Net::SNMP
+
