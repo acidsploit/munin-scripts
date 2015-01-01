@@ -50,9 +50,6 @@ unless ($sensor = $2){
   exit 2;
 }
 
-#debug
-#print $Host . " - " . $sensor . "\n";
-
 ###############################################################################
 ## Initiate SNMP Session
 my ($Session, $Error) = Net::SNMP->session (-hostname  => $Host,
