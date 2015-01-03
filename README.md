@@ -11,28 +11,13 @@ Please use the bugtracker @ https://github.com/acidsploit/munin-scripts/issues t
 
 ```
 Updated plugins:
-- /munin-mikrotik-scripts/mikrotikcpu__
-	- hostname
+- /munin-mikrotik-scripts/mikrotikcpu_
 - /munin-mikrotik-scripts/mikrotikdiskspace_
-	- hostname
 - /munin-mikrotik-scripts/mikrotikifrate_
-	- hostname_ifname
 - /munin-mikrotik-scripts/mikrotikmemory_
-	- hostname
 - /munin-bitcoind-scripts/bitcoind_
-	- balance
-	- connections
-	- paytxfee
-	- relayfee
-	- transactions
-	- block_age
-	- difficulty
-	- score
-	- blocks
 
 New pugins:
 - /munin-mikrotik-scripts/mikrotikuptime_
 - /munin-mikrotik-scripts/mikrotiksensors_
-	- temperature
-	- voltage
 ```

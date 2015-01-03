@@ -11,16 +11,21 @@ All munin plugins have been developed and tested on Munin 2.0.24 and MikroTik Ro
 Please use the bugtracker @ https://github.com/acidsploit/munin-mikrotik-scripts/issues to leave any comments, issues or feedback.
 
 Updated plugins:
-- mikrotikcpu_
-- mikrotikdiskspace_
-- mikrotikifrate_
-- mikrotikmemory_
+- /munin-mikrotik-scripts/mikrotikcpu_
+        - hostname
+- /munin-mikrotik-scripts/mikrotikdiskspace_
+        - hostname
+- /munin-mikrotik-scripts/mikrotikifrate_
+        - hostname_ifname
+- /munin-mikrotik-scripts/mikrotikmemory_
+        - hostname
 
 New pugins:
-- mikrotikuptime_
-- mikrotiksensors_
-	- temperature
-	- voltage
+- /munin-mikrotik-scripts/mikrotikuptime_
+- /munin-mikrotik-scripts/mikrotiksensors_
+        - temperature
+        - voltage
+
 
 Dependencies:
 - PHP:
