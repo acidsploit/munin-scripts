@@ -7,13 +7,13 @@ Please use the bugtracker @ https://github.com/acidsploit/munin-scripts/issues t
 
 Updated plugins:
 - /munin-bitcoind-scripts/bitcoind_
-        - balance
-        - connections
-        - paytxfee
-        - relayfee
-        - transactions
-        - block_age
-        - difficulty
-        - score
-        - blocks
+	- balance
+	- connections
+	- paytxfee
+	- relayfee
+	- transactions
+	- block_age
+	- difficulty
+	- score
+	- blocks
 

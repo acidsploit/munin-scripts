@@ -12,19 +12,19 @@ Please use the bugtracker @ https://github.com/acidsploit/munin-mikrotik-scripts
 
 Updated plugins:
 - /munin-mikrotik-scripts/mikrotikcpu_
-        - hostname
+	- hostname
 - /munin-mikrotik-scripts/mikrotikdiskspace_
-        - hostname
+	- hostname
 - /munin-mikrotik-scripts/mikrotikifrate_
-        - hostname_ifname
+	- hostname_ifname
 - /munin-mikrotik-scripts/mikrotikmemory_
-        - hostname
+	- hostname
 
 New pugins:
 - /munin-mikrotik-scripts/mikrotikuptime_
 - /munin-mikrotik-scripts/mikrotiksensors_
-        - temperature
-        - voltage
+	- temperature
+	- voltage
 
 
 Dependencies:
