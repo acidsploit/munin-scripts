@@ -4,6 +4,9 @@
 # by Mike Koss
 # Feb 14, 2012, MIT License
 #
+# modified by acidsploit@github
+# Jan 03, 2015
+#
 # You need to be able to authenticate to the bitcoind server to issue rpc's.
 # This plugin supporst 2 ways to do that:
 #
