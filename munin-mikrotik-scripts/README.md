@@ -8,7 +8,7 @@ The scripts are written in php or perl. Check the scripts to see which modules o
 
 All munin plugins have been developed and tested on Munin 2.0.24 and MikroTik RouterOS 6.24.
 
-Please use the bugtracker @ https://github.com/acidsploit/munin-mikrotik-scripts/issues to leave any comments, issues or feedback.
+Please use the bugtracker @ https://github.com/acidsploit/munin-scripts/issues to leave any comments, issues or feedback.
 
 Updated plugins:
 - /munin-mikrotik-scripts/mikrotikcpu_
