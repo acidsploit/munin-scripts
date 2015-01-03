@@ -44,10 +44,10 @@ my $Host = undef;
 my $sensor = undef;
 $0 =~ /mikrotiksensors_(.+)_(temperature|voltage)*$/;
 unless ($Host = $1) {
-  exit 2;
+  die "Could not detect the hostname in the script name. Naming convention: mikrotikcpu_router-hostname_sensor Example: mikrotikcpu_router01.local.net_voltage. E: $!\n";
 }
 unless ($sensor = $2){
-  exit 2;
+  die "Could not detect the sensor in the script name. Naming convention: mikrotikcpu_router-hostname_sensor Example: mikrotikcpu_router01.local.net_voltage. E: $!\n";
 }
 
 ###############################################################################
@@ -67,14 +67,15 @@ if (!defined($Session)) {
 if ($ARGV[0] && $ARGV[0] eq "config") {
   if ($sensor eq "temperature"){
     print "host_name " . $Host . "\n";
-    print "graph_args -l 0 -u 100\n";
     print "graph_title Temperature Sensor\n";
     print "graph_vlabel Degrees Celcius\n";
     print "graph_category sensors\n";
     print "temp.label temp\n";
-    print "temp.draw AREA\n";
-    print "temp.warning 60\n";
-    print "temp.critical 80\n";
+    print "temp.type GAUGE\n";
+    print "temp.warning 80\n";
+    print "temp.critical 90\n";
+    
+    exit 0;
   }
 
   if ($sensor eq "voltage"){ 
@@ -84,6 +85,8 @@ if ($ARGV[0] && $ARGV[0] eq "config") {
     print "graph_category sensors\n";
     print "voltage.label voltage\n";
     print "voltage.type GAUGE\n";
+
+    exit 0;
   }
 
  # my $Result = $Session->get_request(-varbindlist => [$MemTotalOID]);
@@ -98,8 +101,8 @@ if ($ARGV[0] && $ARGV[0] eq "config") {
  # print "Total.draw AREA\n";
  # print "Used.label Used Memory\n";
  # print "Used.draw AREA\n";
-  $Session->close;
-  exit;
+ # $Session->close;
+  exit 0;
 }
 
 ###############################################################################
