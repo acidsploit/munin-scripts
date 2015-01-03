@@ -33,4 +33,3 @@ New pugins:
 - /munin-mikrotik-scripts/mikrotiksensors_
 	- temperature
 	- voltage
-
