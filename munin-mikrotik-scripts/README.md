@@ -22,10 +22,13 @@ Updated plugins:
 
 New pugins:
 - /munin-mikrotik-scripts/mikrotikuptime_
+	- hostname
 - /munin-mikrotik-scripts/mikrotiksensors_
-	- temperature
-	- voltage
+	- hostname_temperature
+	- hostname_voltage
 - /munin-mikrotik-scripts/mikrotikwificlients_
+	- hostname_ifname
+
 
 
 Dependencies:
