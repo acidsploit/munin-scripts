@@ -69,13 +69,13 @@ if ($argc > 1 && $argv[1] == 'config') {
   print "graph_args --base 1000 -l 0\n";
   print "graph_title $ifname clients\n";
   print "graph_vlabel clients\n";
-  print "graph_scale no";
+  print "graph_scale no\n";
   print "graph_category network\n";
   print "graph_info This graph shows the registered and authenticated clients of a wireless interface\n";
   print "reg.label registered\n";
-  print "reg.draw AREASTACK\n";
+//  print "reg.draw AREA\n";
   print "auth.label authenticated\n";
-  print "auth.draw AREASTACK\n";
+//  print "auth.draw AREA\n";
 
   exit;
 }
