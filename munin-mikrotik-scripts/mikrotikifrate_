@@ -74,11 +74,13 @@ if ($argc > 1 && $argv[1] == 'config') {
   print "in.type DERIVE\n";
   print "in.draw AREA\n";
   print "in.min 0\n";
+  print "in.graph no\n";
   print "in.cdef in,8,*\n";
   print "out.label sent\n";
   print "out.type DERIVE\n";
   print "out.draw LINE1\n";
   print "out.min 0\n";
+  print "out.negative in\n";
   print "out.cdef out,8,*\n";
 
   exit;
