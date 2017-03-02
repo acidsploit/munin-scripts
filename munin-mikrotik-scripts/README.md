@@ -25,6 +25,7 @@ New pugins:
 - /munin-mikrotik-scripts/mikrotiksensors_
 	- temperature
 	- voltage
+- /munin-mikrotik-scripts/mikrotikwificlients_
 
 
 Dependencies:
