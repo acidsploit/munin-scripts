@@ -10,7 +10,7 @@
 # mikrotikcpu_router-hostname_ifname
 #
 # example:
-# mikrotikcpu_router01.local.net_ether2
+# mikrotikcwificlients_router01.local.net_wlan1
 #
 # Configuration:
 #  - Install the routeros_api.class.php php class.
@@ -32,24 +32,25 @@ $param = explode("_",$argv[0],3);
 if (isset($param[1])) {
   $hostname = $param[1];
 } else {
-  die("No hostname available. Filename should be like: mikrotikifrate_example.changeip.net_ether1");
+  die("No hostname available. Filename should be like: mikrotikwificlients_example.changeip.net_ether1");
 }
 
 if (isset($param[2])) {
   $ifname = $param[2];
 } else {
-  die("No interface name available. Filename should be like: mikrotikifrate_example.changeip.net_ether1");
+  die("No interface name available. Filename should be like: mikrotikwificlients_example.changeip.net_ether1");
 }
 
 // change username/password as appropriate
 if ($API->connect($hostname, 'munin', 'munin')) {
 
-   $API->write('/interface/print',false);
-   $API->write('=stats=');
+   $API->write('/interface/wireless/monitor',false);
+   $API->write('=numbers='.$ifname,false);
+   $API->write('=once=');
 
    $READ = $API->read(false);
    $interfaces = $API->parse_response($READ);
-  # print_r($interfaces);
+ //  print_r($interfaces);
    $API->disconnect();
 
    $connect = 'yes';
@@ -65,23 +66,16 @@ if ($argc > 1 && $argv[1] == 'autoconf') {
 // Output configuration information
 if ($argc > 1 && $argv[1] == 'config') {
   print "host_name $hostname\n";
-  print "graph_args --base 1000\n";
-  print "graph_title $ifname traffic\n";
-  print "graph_vlabel bits per second\n";
+  print "graph_args --base 1000 -l 0\n";
+  print "graph_title $ifname clients\n";
+  print "graph_vlabel clients\n";
+  print "graph_scale no\n";
   print "graph_category network\n";
-  print "graph_info This graph shows the incoming and outgoing traffic rate of an interface\n";
-  print "in.label received\n";
-  print "in.type DERIVE\n";
-  print "in.draw AREA\n";
-  print "in.min 0\n";
-  print "in.graph no\n";
-  print "in.cdef in,8,*\n";
-  print "out.label bps\n";
-  print "out.type DERIVE\n";
-  print "out.draw LINE1\n";
-  print "out.min 0\n";
-  print "out.negative in\n";
-  print "out.cdef out,8,*\n";
+  print "graph_info This graph shows the registered and authenticated clients of a wireless interface\n";
+  print "reg.label registered\n";
+//  print "reg.draw AREA\n";
+  print "auth.label authenticated\n";
+//  print "auth.draw AREA\n";
 
   exit;
 }
@@ -94,14 +88,11 @@ if (empty($interfaces)) {
 // Finally, print it all out.
     foreach ($interfaces as $interface)
     {
-	if ($interface['name']==$ifname)
-	{
 	    //print_r($interface);
-	    $rxbytes = $interface['rx-byte'];
-	    $txbytes = $interface['tx-byte'];
-	    print ("in.value ") . $rxbytes . "\n";
-	    print ("out.value ") . $txbytes . "\n";
-	}
+	    $rxbytes = $interface['registered-clients'];
+	    $txbytes = $interface['authenticated-clients'];
+	    print ("reg.value ") . $rxbytes . "\n";
+	    print ("auth.value ") . $txbytes . "\n";
     }
 
 exit;
